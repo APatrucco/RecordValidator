@@ -15,21 +15,36 @@ namespace RecordValidator
 
             List<DateTime> unsortedDates = new List<DateTime> { };
 
-            foreach (var item in data)
+            try
             {
-                var splitData = item.Split('/');
-                var year = int.Parse(splitData[2]);
-                var month = int.Parse(splitData[0]);
-                var day = int.Parse(splitData[1]);
+                foreach (var item in data)
+                {
+                    var splitData = item.Split('/');
+                    var year = int.Parse(splitData[2]);
+                    var month = int.Parse(splitData[0]);
+                    var day = int.Parse(splitData[1]);
 
-                unsortedDates.Add(new DateTime(year, month, day));
+                    unsortedDates.Add(new DateTime(year, month, day));
+                }
+
+                List<DateRange> sortedDates = DateRange.SortDates(unsortedDates);
+
+                foreach (var date in sortedDates)
+                {
+                    Console.WriteLine($"Start: {date.beginDate.ToShortDateString()} \t End: {date.endDate.ToShortDateString()}");
+                }
             }
-
-            List<DateRange> sortedDates = DateRange.SortDates(unsortedDates);
-
-            foreach (var date in sortedDates)
+            catch (IndexOutOfRangeException e)
             {
-                Console.WriteLine($"Start: {date.beginDate.ToShortDateString()} \t End: {date.endDate.ToShortDateString()}");
+                Console.WriteLine($"CSV file contains invalid entries. \n\t Error: {e}");
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine($"CSV file must contain an even number of entries. \n\t Error: {e}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
     }
