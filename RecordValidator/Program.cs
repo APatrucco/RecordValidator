@@ -9,7 +9,7 @@ namespace RecordValidator
         static void Main(string[] args)
         {
 
-            StreamReader reader = new StreamReader("C:/users/alex.patrucco/documents/dates.csv");
+            StreamReader reader = new StreamReader("C:/Users/alex.patrucco/source/repos/RecordValidator/RecordValidator/CSV_Files/dates.csv");
 
             var data = reader.ReadLine().Split(',');
 
