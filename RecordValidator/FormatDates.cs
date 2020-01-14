@@ -7,7 +7,7 @@ namespace RecordValidator
     {
         public static List<DateRange> SortDates(List<DateTime> unsortedDates)
         {
-            List<DateRange> sortedDates = new List<DateRange> { };
+            List<DateRange> sortedDates = new List<DateRange>();
 
             unsortedDates.Sort();
 
