@@ -4,20 +4,18 @@ using System.Collections.Generic;
 namespace RecordValidator
 {
     class FormatDates
-    {
-        public static List<DateRange> SortDates(List<DateTime> unsortedDates)
+    { 
+        public static List<DateRange> Converter(List<DateTime> sortedDates)
         {
-            List<DateRange> sortedDates = new List<DateRange>();
+            List<DateRange> returnValue = new List<DateRange>();
 
-            unsortedDates.Sort();
-
-            for (var i = 0; i < unsortedDates.Count; i += 2)
+            for (var i = 0; i < sortedDates.Count; i += 2)
             {
-                DateRange pair = new DateRange(unsortedDates[i], unsortedDates[i + 1]);
-                sortedDates.Add(pair);
+                DateRange pair = new DateRange(sortedDates[i], sortedDates[i + 1]);
+                returnValue.Add(pair);
             }
 
-            return sortedDates;
+            return returnValue;
         }
     }
 }

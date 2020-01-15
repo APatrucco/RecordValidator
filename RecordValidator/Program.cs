@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace RecordValidator
 {
@@ -16,17 +18,21 @@ namespace RecordValidator
 
             try
             {
-                foreach (var item in data)
+                foreach (string item in data)
                 {
-                    if (DateTime.TryParse(item, out DateTime isaDate))
-                        unsortedDates.Add(DateTime.Parse(item));
+                    DateTime.TryParse(item, CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime returnValue);
+
+                    if (returnValue.CompareTo(DateTime.MinValue) > 0)
+                        unsortedDates.Add(returnValue);
                     else
                         Console.WriteLine($"Unable to convert value \"{item.Trim(' ')}\" to DateTime.");
                 }
 
-                List<DateRange> sortedDates = FormatDates.SortDates(unsortedDates);
+                List<DateTime> sortedDates = unsortedDates.OrderBy(x => x).ToList();
 
-                foreach (var date in sortedDates)
+                List<DateRange> sortedDateRanges = FormatDates.Converter(sortedDates);
+
+                foreach (var date in sortedDateRanges)
                 {
                     Console.WriteLine($"Start: {date.BeginDate.ToShortDateString()} \t End: {date.EndDate.ToShortDateString()}");
                 }
